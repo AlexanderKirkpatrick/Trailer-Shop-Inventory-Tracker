@@ -62,6 +62,132 @@ class TrailerControl extends React.Component {
       editing: false
     }
   }
+
+  handleClick = () => {
+    if(this.state.selectedTrailer != null) {
+      this.setState({
+        formVisibleOnPage: false,
+        selectedTrailer: null,
+        editing: false
+      });
+    } else {
+      this.setState(prevState => ({
+        formVisibleOnPage: !prevState.formVisibleOnPage
+      }));
+    }
+  }
+
+  handleEditClick = () => {
+    this.setState({
+      editing: true
+    });
+  }
+
+  handleAddingNewTrailerToList = (newTrailer) => {
+    const newMainTrailerList = this.state.mainTrailerList.concat(newTrailer);
+    this.setState({
+      mainTrailerList: newMainTrailerList,
+      formVisibleOnPage: false
+    });
+  }  
+
+  handleEditingTrailerInList = (trailerToEdit) => {
+    const editedTrailerMainList = this.state.mainTrailerList
+      .filter(trailer => trailer.id !== this.state.selectedTrailer.id)
+      .concat(trailerToEdit);
+    this.setState({
+      mainTrailerList: editedTrailerMainList,
+      editing: false,
+      selectedTrailer: null
+    });
+  }
+
+  handleChangingSelectedTrailer=(id) => {
+    const selectedTrailer = this.state.mainTrailerList
+      .filter(trailer => trailer.id === id)[0];
+    this.setState({
+      selectedTrailer: selectedTrailer
+    });
+  }
+
+  handleDeletingTrailer = (id) => {
+    const newMainTrailerList = this.state.mainTrailerList.filter(trailer => trailer.id !== id);
+    this.setState ({
+      mainTrailerList: newMainTrailerList,
+      selectedTrailer: null
+    });
+  }
+
+  handleRestockingTrailer = (id) => {
+    const trailerToRestock = this.state.mainTrailerList
+      .filter(trailer => trailer.id === id)[0];
+    const restockedTrailer = {...trailerToRestock, quantity:100};
+    const newMainTrailerList = this.state.mainTrailerList
+      .filter(trailer => trailer.id !== id)
+      .concat(restockedTrailer);
+    this.setState({
+      mainTrailerList: newMainTrailerList,
+      selectedTrailer: null
+    });
+  }
+
+  handleOrderingTrailer = (id) => {
+    const trailerToOrder = this.state.mainTrailerList
+      .filter(trailer => trailer.id === id)[0];
+    
+    if(trailerToOrder.quantity > 0) {
+      const newTotal = trailerToOrder.quantity -1;
+      const newNumberOrderedTotal = trailerToOrder.numberOrdered +1;
+      const orderedTrailer = {...trailerToOrder, quantity:newTotal, numberOrdered: newNumberOrderedTotal};
+
+      const newMainTrailerList = this.state.mainTrailerList
+      .filter(trailer => trailer.id !== id)
+      .concat(orderedTrailer);
+
+      this.setState({
+        mainTrailerList: newMainTrailerList,
+        selectedTrailer: null,
+      });
+    }
+  }
+
+  render() {
+    let currentlyVisibleState = null;
+    let buttonText = null;
+
+    if(this.state.editing) {
+      currentlyVisibleState = <EditTrailerForm 
+      trailer={this.state.selectedTrailer} 
+      onEditTrailer={this.handleEditingTrailerInList} />
+      buttonText = "Return to Trailer List";
+    } else if (this.state.selectedTrailer) {
+      currentlyVisibleState = <TrailerDetail 
+      trailer={this.state.selectedTrailer} 
+      onClickingDelete={this.handleDeletingTrailer} 
+      onClickingEdit={this.handleEditClick} 
+      onClickingRestock={this.handleRestockingTrailer} 
+      onOrderingTrailer={this.handleOrderingTrailer}/>
+      buttonText = "Return to Trailer List";
+    } else if (this.state.formVisibleOnPage) {
+      currentlyVisibleState = <CreateTrailerForm 
+      onNewTrailerCreation={this.handleAddingNewTrailerToList} />
+      buttonText = "Return to Trailer List";
+    } else {
+      currentlyVisibleState = <TrailerList 
+      trailerList={this.state.mainTrailerList} 
+      onTrailerSelection={this.handleChangingSelectedTrailer}/>
+      buttonText="Add Trailer"
+    }
+
+    return (
+
+      <React.Fragment>
+        {currentlyVisibleState}
+        <hr/>
+        <button onClick={this.handleClick}>{buttonText}</button>
+      </React.Fragment>
+    );
+  }
 }
 
 
