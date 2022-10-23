@@ -27,7 +27,7 @@
 
 ## Component Diagram
 
-![Diagram](Component Diagram.png)
+![image](./Component_Diagram.png)
 
 ## Known Bugs
 
