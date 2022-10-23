@@ -2,7 +2,7 @@
 
 #### By _**Alexander Kirkpatrick**_
 
-#### _SHORT DESCRIPTION._
+#### _An application in React that tracks the inventory for a local business. Full CRUD capability._
 
 ## Technologies Used
 
@@ -12,10 +12,6 @@
 * Markdown
 * React
 * JSX
-
-## Description
-
-_._
 
 ## Setup/Installation Requirements
 
@@ -29,9 +25,13 @@ _._
 
 * _(See Github page for this project](https://alexanderkirkpatrick.github.io/Trailer-Shop-Inventory-Tracker/)_
 
+## Component Diagram
+
+![Diagram](Component Diagram.png)
+
 ## Known Bugs
 
-* _No known bugs_
+* _When an item is updated, order, or altered in anyway, it will be pushed to the bottom of the list._
 
 ## License
 
