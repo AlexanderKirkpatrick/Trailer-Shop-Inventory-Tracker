@@ -12,8 +12,8 @@ function TrailerList(props) {
     <React.Fragment>
       <hr/>
       <div className="grid-container" style={gridContainerStyle}>
-        {props.trailerList.map((trailer) =>
-          <div className="grid-item">
+        <div className="grid-item">
+          {props.trailerList.map((trailer) =>
             <Trailer
               whenTrailerClicked = {props.onTrailerSelection}
               onOrderingTrailer = {props.onOrderingTrailer}
@@ -25,8 +25,8 @@ function TrailerList(props) {
               numberOrdered={trailer.numberOrdered}
               id={trailer.id}
               key={trailer.id} />
-          </div>
-          )}
+            )}
+        </div>
       </div>
     </React.Fragment>
   );
