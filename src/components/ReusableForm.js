@@ -17,6 +17,10 @@ function ReusableForm(props) {
           type='text'
           name='quantity'
           placeholder='Quantity' />
+          <input
+          type='text'
+          name='Ordered'
+          placeholder='Ordered' />
         <textarea
           name='description'
           placeholder='Description' />

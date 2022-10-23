@@ -12,6 +12,7 @@ function EditTrailerForm(props){
       price: parseInt(event.target.price.value), 
       quantity: parseInt(event.target.quantity.value),
       description: event.target.description.value,
+      numberOrdered: parseInt(event.target.numberOrdered.value),
       imgURL: event.target.imgURL.value, 
       id: trailer.id}
       );

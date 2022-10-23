@@ -13,7 +13,8 @@ class TrailerControl extends React.Component {
       mainTrailerList: [{
         name: "6x12 Enclosed Trailer",
         price: 5000,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A 6ft by 12ft enclosed trailer",
         imgURL: "https://dealer-cdn.com/rW3v2m/C6T6Wm/2022_Spartan_Cargo_Spartan_SP6X12SA_Enclosed_Cargo_Trailer_eqG0Po.jpg",
         id: "1"
@@ -21,7 +22,8 @@ class TrailerControl extends React.Component {
       {
         name: "7x14 Enclosed Trailer",
         price: 8000,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A 7ft by 14ft enclosed trailer",
         imgURL: "https://allamericantrailer.com/wp-content/uploads/2019/05/IMG_0136.jpg",
         id: "2" 
@@ -29,7 +31,8 @@ class TrailerControl extends React.Component {
       {
         name: "6x12 Dump Trailer",
         price: 9500,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A 6ft by 12ft dump trailer",
         imgURL: "https://dealer-cdn.com/rW3v2m/hrMXvU/2022_Hawke_Trailers_6X12TA_10K_Low_Profile_Dump_Trailer_USLgbA.jpg",
         id: "3" 
@@ -37,7 +40,8 @@ class TrailerControl extends React.Component {
       {
         name: "7x14 Dump Trailer",
         price: 14000,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A 7ft by 14ft dump trailer",
         imgURL: "https://www.victoriatrailers.ca/wp-content/uploads/2020/08/7x14-sure-trac-dump-trailer.png",
         id: "4" 
@@ -45,7 +49,8 @@ class TrailerControl extends React.Component {
       {
         name: "Trimaran Sailboat Trailer",
         price: 5000,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A custom Trimaran sailboat trailer",
         imgURL: "http://sailtrailers.com/yahoo_site_admin/assets/images/100_0074.1262228_large.jpg",
         id: "5" 
@@ -53,7 +58,8 @@ class TrailerControl extends React.Component {
       {
         name: "Fixed Keel Sailboat  Trailer",
         price: 15000,
-        quantity: 100,
+        quantity: 10,
+        numberOrdered: 0,
         description: "A custom triple axle sailboat trailer",
         imgURL: "http://sailtrailers.com/yahoo_site_admin/assets/images/c30_purple_trailer.59113338_large.jpg",
         id: "6" 
@@ -92,9 +98,7 @@ class TrailerControl extends React.Component {
   }  
 
   handleEditingTrailerInList = (trailerToEdit) => {
-    const editedTrailerMainList = this.state.mainTrailerList
-      .filter(trailer => trailer.id !== this.state.selectedTrailer.id)
-      .concat(trailerToEdit);
+    const editedTrailerMainList = this.state.mainTrailerList.filter(trailer => trailer.id !== this.state.selectedTrailer.id).concat(trailerToEdit);
     this.setState({
       mainTrailerList: editedTrailerMainList,
       editing: false,
@@ -103,11 +107,9 @@ class TrailerControl extends React.Component {
   }
 
   handleChangingSelectedTrailer=(id) => {
-    const selectedTrailer = this.state.mainTrailerList
-      .filter(trailer => trailer.id === id)[0];
-    this.setState({
-      selectedTrailer: selectedTrailer
-    });
+    const selectedTrailer = this.state.mainTrailerList.filter(trailer => trailer.id === id)[0];
+    this.setState({selectedTrailer: selectedTrailer}
+    );
   }
 
   handleDeletingTrailer = (id) => {
@@ -119,12 +121,9 @@ class TrailerControl extends React.Component {
   }
 
   handleRestockingTrailer = (id) => {
-    const trailerToRestock = this.state.mainTrailerList
-      .filter(trailer => trailer.id === id)[0];
-    const restockedTrailer = {...trailerToRestock, quantity:100};
-    const newMainTrailerList = this.state.mainTrailerList
-      .filter(trailer => trailer.id !== id)
-      .concat(restockedTrailer);
+    const trailerToRestock = this.state.mainTrailerList.filter(trailer => trailer.id === id)[0];
+    const restockedTrailer = {...trailerToRestock, quantity:10};
+    const newMainTrailerList = this.state.mainTrailerList.filter(trailer => trailer.id !== id).concat(restockedTrailer);
     this.setState({
       mainTrailerList: newMainTrailerList,
       selectedTrailer: null
@@ -132,17 +131,14 @@ class TrailerControl extends React.Component {
   }
 
   handleOrderingTrailer = (id) => {
-    const trailerToOrder = this.state.mainTrailerList
-      .filter(trailer => trailer.id === id)[0];
+    const trailerToOrder = this.state.mainTrailerList.filter(trailer => trailer.id === id)[0];
     
     if(trailerToOrder.quantity > 0) {
       const newTotal = trailerToOrder.quantity -1;
       const newNumberOrderedTotal = trailerToOrder.numberOrdered +1;
       const orderedTrailer = {...trailerToOrder, quantity:newTotal, numberOrdered: newNumberOrderedTotal};
 
-      const newMainTrailerList = this.state.mainTrailerList
-      .filter(trailer => trailer.id !== id)
-      .concat(orderedTrailer);
+      const newMainTrailerList = this.state.mainTrailerList.filter(trailer => trailer.id !== id).concat(orderedTrailer);
 
       this.setState({
         mainTrailerList: newMainTrailerList,
@@ -169,7 +165,7 @@ class TrailerControl extends React.Component {
       onOrderingTrailer={this.handleOrderingTrailer}/>
       buttonText = "Return to Trailer List";
     } else if (this.state.formVisibleOnPage) {
-      currentlyVisibleState = <CreateTrailerForm 
+      currentlyVisibleState = <NewTrailerForm 
       onNewTrailerCreation={this.handleAddingNewTrailerToList} />
       buttonText = "Return to Trailer List";
     } else {
@@ -177,10 +173,7 @@ class TrailerControl extends React.Component {
       trailerList={this.state.mainTrailerList} 
       onTrailerSelection={this.handleChangingSelectedTrailer}/>
       buttonText="Add Trailer"
-    }
-
-    return (
-
+    } return (
       <React.Fragment>
         {currentlyVisibleState}
         <hr/>

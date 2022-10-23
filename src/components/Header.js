@@ -5,7 +5,7 @@ function Header(){
   return (
     <React.Fragment>
       <h1>Sail Trailers</h1>
-      <img src={trailerImage} alt="An image of a sailboat on a trailer" />
+      <img src={trailerImage} alt="An image of a sailboat on a trailer"  />
     </React.Fragment>
   );
 }
